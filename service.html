@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RESET 프로그램 — LIFE HAVING</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+
+<style>
+/* ══════════════════════════════
+   TOKENS (index.html 동일)
+══════════════════════════════ */
+:root{
+  --bg:       #F7F6F2;
+  --pt:       #EBEADE;
+  --dark:     #1C1C1A;
+  --tx:       #3D3D3D;
+  --tx-sub:   #5A5A5A;
+  --tx-muted: #9A9A8E;
+  --bd:       rgba(61,61,61,.10);
+  --bd-m:     rgba(61,61,61,.18);
+  --f-logo:'Josefin Sans',sans-serif;
+  --f-serif:'Cormorant Garamond',serif;
+  --f-sans:'Pretendard',-apple-system,sans-serif;
+  --nav-h:76px;
+  --mw:1280px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--f-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{border:none;background:none;cursor:pointer;font-family:inherit}
+
+.wrap{width:100%;max-width:var(--mw);margin:0 auto;padding:0 72px}
+.sec-label{font-family:var(--f-sans);font-size:.60rem;font-weight:400;letter-spacing:.28em;text-transform:uppercase;color:var(--tx-muted);display:block;margin-bottom:16px}
+
+[data-sr]{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+[data-sr].in{opacity:1;transform:none}
+[data-sr][data-d="1"]{transition-delay:.10s}
+[data-sr][data-d="2"]{transition-delay:.22s}
+[data-sr][data-d="3"]{transition-delay:.34s}
+[data-sr][data-d="4"]{transition-delay:.46s}
+[data-sr][data-d="5"]{transition-delay:.58s}
+
+/* ── 버튼 ── */
+.btn-fill{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-sans);font-size:.82rem;font-weight:500;letter-spacing:.06em;color:#fff;background:var(--tx);padding:14px 36px;border-radius:2px;transition:background .3s,transform .25s var(--ease),gap .3s;white-space:nowrap}
+.btn-fill:hover{background:var(--dark);transform:translateY(-2px);gap:14px}
+.btn-line{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-sans);font-size:.80rem;font-weight:400;letter-spacing:.06em;color:var(--tx);border:1px solid var(--bd-m);padding:13px 34px;border-radius:2px;transition:background .3s,color .3s,border-color .3s,transform .25s var(--ease)}
+.btn-line:hover{background:var(--tx);color:#fff;border-color:var(--tx);transform:translateY(-2px)}
+.btn-fill-inv{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-sans);font-size:.80rem;font-weight:500;letter-spacing:.06em;color:var(--dark);background:#F7F6F2;padding:14px 36px;border-radius:2px;transition:background .3s,transform .25s var(--ease),gap .3s}
+.btn-fill-inv:hover{background:#fff;transform:translateY(-2px);gap:14px}
+
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+#hdr{position:fixed;top:0;left:0;right:0;z-index:800;height:var(--nav-h);background:transparent;border-bottom:1px solid transparent;transition:background .45s ease,border-color .45s ease}
+#hdr.scrolled{background:rgba(247,246,242,.90);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom-color:var(--bd)}
+.nav-inner{height:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.nav-logo{grid-column:2;justify-self:center;font-family:var(--f-logo);font-size:.48rem;font-weight:300;letter-spacing:.56em;text-transform:uppercase;color:var(--tx);text-indent:.56em;white-space:nowrap;transition:opacity .3s}
+.nav-logo:hover{opacity:.5}
+.nav-links{grid-column:1;display:flex;align-items:center;gap:34px;list-style:none}
+.nav-links a{font-family:var(--f-sans);font-size:.72rem;font-weight:400;letter-spacing:.05em;color:var(--tx);opacity:.42;transition:opacity .25s}
+.nav-links a:hover,.nav-links a.active{opacity:1}
+.nav-right{grid-column:3;display:flex;align-items:center;justify-content:flex-end}
+.nav-cta{font-family:var(--f-sans);font-size:.72rem;font-weight:500;letter-spacing:.07em;color:#fff;background:var(--tx);padding:10px 26px;border-radius:2px;transition:background .3s}
+.nav-cta:hover{background:var(--dark)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:6px 2px}
+.nav-burger span{display:block;width:20px;height:1px;background:var(--tx);border-radius:1px}
+
+/* ══════════════════════════════
+   PAGE HERO — 서비스 헤더
+══════════════════════════════ */
+#page-hero{
+  padding:calc(var(--nav-h) + 96px) 0 0;
+  background:var(--bg);
+  position:relative;overflow:hidden;
+}
+/* 배경 원형 장식 */
+#page-hero::after{
+  content:'';position:absolute;
+  right:-200px;top:40%;transform:translateY(-50%);
+  width:700px;height:700px;border-radius:50%;
+  border:1px solid rgba(61,61,61,.05);pointer-events:none;
+}
+.ph-breadcrumb{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:40px;
+}
+.ph-breadcrumb a,.ph-breadcrumb span{
+  font-family:var(--f-sans);font-size:.66rem;font-weight:400;
+  letter-spacing:.08em;color:var(--tx-muted);
+}
+.ph-breadcrumb a:hover{color:var(--tx)}
+.ph-breadcrumb .sep{color:var(--bd-m)}
+
+.ph-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 80px;
+  align-items:end;
+  padding-bottom:72px;
+}
+.ph-left{}
+.ph-tag{
+  display:inline-block;
+  font-family:var(--f-logo);font-size:.58rem;font-weight:300;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--tx);
+  border:1px solid var(--bd-m);
+  padding:5px 16px;border-radius:20px;
+  margin-bottom:28px;
+}
+.ph-h1{
+  font-family:var(--f-serif);
+  font-size:clamp(2.2rem,4vw,4.0rem);
+  font-weight:400;line-height:1.38;
+  letter-spacing:-.01em;word-break:keep-all;
+  color:var(--dark);margin-bottom:24px;
+}
+.ph-h1 em{font-style:italic;color:var(--tx-sub)}
+.ph-sub{
+  font-family:var(--f-serif);
+  font-size:clamp(.90rem,1.2vw,1.08rem);
+  font-weight:400;line-height:2.0;
+  color:var(--tx-sub);word-break:keep-all;
+  margin-bottom:44px;
+}
+.ph-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+
+.ph-right{
+  display:flex;flex-direction:column;gap:3px;
+  padding-bottom:8px;
+}
+/* 핵심 수치 카드 */
+.ph-stat{
+  background:var(--pt);
+  padding:22px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-radius:2px;
+}
+.ph-stat-val{
+  font-family:var(--f-serif);
+  font-size:1.55rem;font-weight:400;color:var(--dark);
+}
+.ph-stat-desc{
+  font-family:var(--f-sans);font-size:.72rem;font-weight:300;
+  color:var(--tx-muted);text-align:right;line-height:1.5;
+}
+
+/* 페이지 하단 경계선 */
+.ph-rule{
+  width:100%;height:1px;
+  background:var(--bd);
+}
+
+/* ══════════════════════════════
+   PROBLEM — 왜 정리는 반복되나
+══════════════════════════════ */
+#problem{
+  padding:120px 0;
+  background:var(--bg);
+}
+.prob-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;align-items:start;
+}
+.prob-left{}
+.prob-heading{
+  font-family:var(--f-serif);
+  font-size:clamp(1.7rem,2.6vw,2.6rem);
+  font-weight:400;line-height:1.52;
+  letter-spacing:.01em;word-break:keep-all;
+  color:var(--dark);margin-bottom:28px;
+}
+.prob-heading em{font-style:italic;color:var(--tx-sub)}
+.prob-body{
+  font-family:var(--f-sans);
+  font-size:.84rem;font-weight:300;
+  line-height:1.95;color:var(--tx-sub);
+  word-break:keep-all;margin-bottom:36px;
+}
+.prob-quote{
+  border-left:2px solid var(--tx);
+  padding:16px 0 16px 24px;
+  font-family:var(--f-serif);
+  font-size:1.10rem;font-weight:400;
+  font-style:italic;
+  line-height:1.7;color:var(--dark);
+  word-break:keep-all;
+}
+
+.prob-right{}
+/* 반복 실패 체크리스트 */
+.prob-checklist{
+  display:flex;flex-direction:column;gap:0;
+  border:1px solid var(--bd);border-radius:3px;overflow:hidden;
+}
+.pc-item{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:18px 22px;
+  border-bottom:1px solid var(--bd);
+  background:var(--bg);
+  transition:background .3s;
+}
+.pc-item:last-child{border-bottom:none}
+.pc-item:hover{background:var(--pt)}
+.pc-x{
+  flex-shrink:0;
+  width:18px;height:18px;
+  border:1px solid var(--bd-m);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:2px;
+}
+.pc-x svg{color:var(--tx-muted)}
+.pc-txt{
+  font-family:var(--f-sans);font-size:.80rem;font-weight:300;
+  line-height:1.65;color:var(--tx-sub);word-break:keep-all;
+}
+.pc-note{
+  margin-top:14px;
+  font-family:var(--f-sans);font-size:.68rem;font-weight:300;
+  line-height:1.7;color:var(--tx-muted);
+  padding:14px 16px;
+  background:var(--pt);border-radius:2px;
+}
+
+/* ══════════════════════════════
+   WHAT — 서비스 정의
+══════════════════════════════ */
+#what{
+  padding:0 0 120px;
+  background:var(--bg);
+}
+.what-inner{
+  background:var(--dark);
+  border-radius:3px;
+  padding:80px 72px;
+  position:relative;overflow:hidden;
+}
+.what-inner::before{
+  content:'';position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(235,234,222,.04) 0%,transparent 65%);
+  pointer-events:none;
+}
+.what-label{
+  font-family:var(--f-sans);font-size:.58rem;font-weight:400;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(247,246,242,.28);margin-bottom:28px;display:block;
+}
+.what-h{
+  font-family:var(--f-serif);
+  font-size:clamp(1.5rem,2.4vw,2.4rem);
+  font-weight:300;line-height:1.60;
+  letter-spacing:.01em;word-break:keep-all;
+  color:#F7F6F2;margin-bottom:24px;
+}
+.what-h em{font-style:italic;color:rgba(247,246,242,.44)}
+.what-body{
+  font-family:var(--f-sans);
+  font-size:.84rem;font-weight:300;
+  line-height:1.95;color:rgba(247,246,242,.48);
+  word-break:keep-all;max-width:560px;
+}
+.what-rule{width:1px;height:auto;background:rgba(247,246,242,.10)}
+.what-grid{
+  display:grid;
+  grid-template-columns:1fr 1px 1fr;
+  gap:0 56px;align-items:start;
+  position:relative;z-index:1;
+}
+.what-right{
+  display:flex;flex-direction:column;gap:20px;
+  padding-left:0;
+}
+.what-diff{
+  padding:20px 24px;
+  border:1px solid rgba(247,246,242,.08);
+  border-radius:2px;
+}
+.wd-label{
+  font-family:var(--f-sans);font-size:.56rem;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.wd-label.neg{color:rgba(247,246,242,.28)}
+.wd-label.pos{color:rgba(235,234,222,.60)}
+.wd-txt{
+  font-family:var(--f-sans);font-size:.78rem;font-weight:300;
+  line-height:1.65;word-break:keep-all;
+}
+.wd-txt.neg{color:rgba(247,246,242,.32)}
+.wd-txt.pos{color:rgba(247,246,242,.72)}
+
+/* ══════════════════════════════
+   HOW — 4단계 진행
+══════════════════════════════ */
+#how{
+  padding:120px 0;
+  background:var(--bg);
+}
+.how-hd{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:48px;
+}
+.how-ttl{
+  font-family:var(--f-serif);
+  font-size:clamp(1.6rem,2.4vw,2.2rem);
+  font-weight:400;color:var(--dark);
+}
+.how-total{
+  font-family:var(--f-sans);font-size:.74rem;font-weight:300;
+  color:var(--tx-muted);
+}
+
+/* 4단계 세로 타임라인 */
+.how-timeline{
+  display:flex;flex-direction:column;gap:0;
+}
+.ht-row{
+  display:grid;
+  grid-template-columns:64px 1px 1fr;
+  gap:0 40px;
+  padding:44px 0;
+  border-top:1px solid var(--bd);
+  position:relative;
+}
+.ht-row:last-child{border-bottom:1px solid var(--bd)}
+.ht-num{
+  font-family:var(--f-serif);
+  font-size:2.6rem;font-weight:300;
+  color:rgba(61,61,61,.10);line-height:1;
+  padding-top:4px;
+}
+.ht-line{
+  width:1px;background:var(--bd);
+  position:relative;
+}
+.ht-line::after{
+  content:'';
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:5px;height:5px;border-radius:50%;
+  background:var(--tx-muted);
+  margin-top:10px;
+}
+.ht-body{padding-left:0}
+.ht-header{
+  display:flex;align-items:baseline;gap:12px;
+  margin-bottom:12px;
+}
+.ht-en{
+  font-family:var(--f-sans);font-size:.62rem;font-weight:600;
+  letter-spacing:.20em;text-transform:uppercase;color:var(--tx);
+}
+.ht-ko{
+  font-family:var(--f-serif);
+  font-size:1.20rem;font-weight:400;color:var(--dark);
+}
+.ht-time{
+  margin-left:auto;
+  font-family:var(--f-sans);font-size:.62rem;font-weight:300;
+  letter-spacing:.08em;color:var(--tx-muted);
+}
+.ht-desc{
+  font-family:var(--f-sans);font-size:.82rem;font-weight:300;
+  line-height:1.9;color:var(--tx-sub);word-break:keep-all;
+  margin-bottom:16px;
+}
+.ht-chips{
+  display:flex;gap:6px;flex-wrap:wrap;
+}
+.ht-chip{
+  font-family:var(--f-sans);font-size:.60rem;font-weight:400;
+  letter-spacing:.09em;color:var(--tx-muted);
+  border:1px solid var(--bd-m);
+  padding:3px 10px;border-radius:20px;
+}
+
+/* ══════════════════════════════
+   RESULT — 고객 변화
+══════════════════════════════ */
+#result{
+  padding:0 0 120px;
+  background:var(--bg);
+}
+.result-hd{margin-bottom:32px}
+.result-ttl{
+  font-family:var(--f-serif);
+  font-size:clamp(1.6rem,2.4vw,2.2rem);
+  font-weight:400;color:var(--dark);
+}
+.result-cards{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1px solid var(--bd);border-radius:3px;overflow:hidden;
+}
+.rc{
+  padding:32px 28px 30px;background:transparent;
+  border-right:1px solid var(--bd);
+  transition:background .3s;
+}
+.rc:last-child{border-right:none}
+.rc:hover{background:rgba(61,61,61,.024)}
+.rc-icon{width:22px;height:22px;color:var(--tx-muted);margin-bottom:20px;display:flex;align-items:center;justify-content:center}
+.rc-icon svg{width:100%;height:100%}
+.rc-ttl{font-family:var(--f-sans);font-size:.84rem;font-weight:600;color:var(--dark);margin-bottom:10px;letter-spacing:-.01em}
+.rc-desc{font-family:var(--f-sans);font-size:.76rem;font-weight:300;line-height:1.75;color:var(--tx-sub);word-break:keep-all}
+
+/* ══════════════════════════════
+   FUNNEL — 진행 퍼널
+══════════════════════════════ */
+#funnel{
+  padding:120px 0;
+  background:var(--pt);
+}
+.funnel-hd{margin-bottom:52px}
+.funnel-ttl{
+  font-family:var(--f-serif);
+  font-size:clamp(1.6rem,2.4vw,2.2rem);
+  font-weight:400;color:var(--dark);
+}
+.funnel-list{
+  display:flex;flex-direction:column;gap:0;
+}
+.fl-row{
+  display:grid;
+  grid-template-columns:36px 1fr auto;
+  gap:0 32px;
+  align-items:center;
+  padding:20px 0;
+  border-bottom:1px solid var(--bd);
+}
+.fl-row:first-child{border-top:1px solid var(--bd)}
+.fl-n{
+  font-family:var(--f-serif);
+  font-size:1.3rem;font-weight:300;
+  color:rgba(61,61,61,.15);text-align:center;
+}
+.fl-body{}
+.fl-ttl{
+  font-family:var(--f-sans);font-size:.82rem;font-weight:500;
+  color:var(--dark);margin-bottom:2px;
+}
+.fl-desc{
+  font-family:var(--f-sans);font-size:.74rem;font-weight:300;
+  color:var(--tx-muted);
+}
+.fl-badge{
+  font-family:var(--f-sans);font-size:.58rem;font-weight:400;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--tx-muted);
+  border:1px solid var(--bd-m);
+  padding:4px 12px;border-radius:20px;
+  white-space:nowrap;
+}
+.fl-badge.active{
+  color:var(--tx);border-color:var(--bd-m);
+  background:rgba(61,61,61,.05);
+}
+
+/* ══════════════════════════════
+   PRICE — 가격 안내
+══════════════════════════════ */
+#price{
+  padding:120px 0;
+  background:var(--bg);
+}
+.price-hd{margin-bottom:40px}
+.price-ttl{
+  font-family:var(--f-serif);
+  font-size:clamp(1.6rem,2.4vw,2.2rem);
+  font-weight:400;color:var(--dark);
+}
+.price-block{
+  border:1px solid var(--bd);border-radius:3px;
+  display:grid;grid-template-columns:1fr 1fr;overflow:hidden;
+}
+.pb-left{padding:48px 44px;border-right:1px solid var(--bd)}
+.pb-price-label{font-family:var(--f-sans);font-size:.58rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--tx-muted);margin-bottom:20px;display:block}
+.pb-price-num{font-family:var(--f-serif);font-size:clamp(2.6rem,4vw,4.0rem);font-weight:400;color:var(--dark);line-height:1;margin-bottom:6px;letter-spacing:-.02em}
+.pb-price-note{font-family:var(--f-sans);font-size:.72rem;font-weight:300;color:var(--tx-muted);margin-bottom:36px;letter-spacing:.01em}
+.pb-options{display:flex;flex-direction:column;border-top:1px solid var(--bd)}
+.pb-opt{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--bd)}
+.pb-opt:last-child{border-bottom:none}
+.pb-opt-name{font-family:var(--f-sans);font-size:.78rem;font-weight:300;color:var(--tx-sub)}
+.pb-opt-val{font-family:var(--f-sans);font-size:.78rem;font-weight:500;color:var(--tx)}
+.pb-footnote{margin-top:20px;font-family:var(--f-sans);font-size:.68rem;font-weight:300;line-height:1.75;color:var(--tx-muted)}
+.pb-right{padding:48px 44px}
+.pb-tgt-label{font-family:var(--f-sans);font-size:.58rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--tx-muted);margin-bottom:20px;display:block}
+.pb-tgt-list{list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--bd)}
+.pb-tgt-list li{display:flex;align-items:flex-start;gap:14px;font-family:var(--f-sans);font-size:.80rem;font-weight:300;line-height:1.7;color:var(--tx-sub);word-break:keep-all;padding:12px 0;border-bottom:1px solid var(--bd)}
+.pb-tgt-list li:last-child{border-bottom:none}
+.pb-tgt-list li::before{content:'';flex-shrink:0;width:4px;height:4px;border-radius:50%;background:var(--tx-muted);margin-top:9px}
+
+/* ══════════════════════════════
+   FINAL CTA
+══════════════════════════════ */
+#svc-cta{
+  padding:140px 0;
+  background:var(--dark);
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cr{position:absolute;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid rgba(235,234,222,.05)}
+.cr-1{width:380px;height:380px}
+.cr-2{width:660px;height:660px;border-color:rgba(235,234,222,.03)}
+.cr-3{width:960px;height:960px;border-color:rgba(235,234,222,.02)}
+.svc-cta-inner{position:relative;z-index:2;max-width:580px;margin:0 auto}
+.svc-cta-en{font-family:var(--f-logo);font-size:.50rem;font-weight:200;letter-spacing:.52em;text-transform:uppercase;color:rgba(247,246,242,.26);margin-bottom:28px;text-indent:.52em}
+.svc-cta-h{font-family:var(--f-serif);font-size:clamp(1.6rem,2.8vw,2.8rem);font-weight:300;line-height:1.60;letter-spacing:.01em;word-break:keep-all;color:#F7F6F2;margin-bottom:24px}
+.svc-cta-h em{font-style:italic;color:rgba(247,246,242,.44)}
+.svc-cta-p{font-family:var(--f-sans);font-size:.82rem;font-weight:300;line-height:1.9;color:rgba(247,246,242,.44);margin-bottom:48px;word-break:keep-all}
+.svc-cta-note{margin-top:16px;font-family:var(--f-sans);font-size:.62rem;letter-spacing:.12em;color:rgba(247,246,242,.22)}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer{background:var(--dark);border-top:1px solid rgba(247,246,242,.07);padding:52px 0 44px}
+.foot-grid{display:grid;grid-template-columns:200px 1fr 200px;gap:48px;align-items:start}
+.foot-logo{font-family:var(--f-logo);font-size:.52rem;font-weight:300;letter-spacing:.52em;text-transform:uppercase;color:rgba(247,246,242,.34);text-indent:.52em}
+.foot-tagline{margin-top:10px;font-family:var(--f-serif);font-size:.85rem;font-weight:300;color:rgba(247,246,242,.20);letter-spacing:.03em}
+.foot-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 32px}
+.foot-nav a{font-family:var(--f-sans);font-size:.66rem;font-weight:300;letter-spacing:.05em;color:rgba(247,246,242,.30);transition:color .25s}
+.foot-nav a:hover{color:rgba(247,246,242,.72)}
+.foot-right{text-align:right}
+.foot-copy{font-family:var(--f-sans);font-size:.58rem;font-weight:300;letter-spacing:.07em;color:rgba(247,246,242,.18);line-height:1.9}
+
+/* ══════════════════════════════
+   FLOAT BUTTON
+══════════════════════════════ */
+.float-cta{position:fixed;bottom:30px;right:28px;z-index:700;display:flex;align-items:center;gap:9px;font-family:var(--f-sans);font-size:.72rem;font-weight:500;letter-spacing:.05em;color:#fff;background:var(--tx);padding:11px 22px;border-radius:100px;box-shadow:0 8px 28px rgba(0,0,0,.16);opacity:0;transform:translateY(10px);transition:opacity .4s var(--ease),transform .4s var(--ease),background .3s;pointer-events:none;cursor:pointer;border:none}
+.float-cta.show{opacity:1;transform:none;pointer-events:auto}
+.float-cta:hover{background:var(--dark)}
+.float-dot{width:5px;height:5px;background:rgba(255,255,255,.55);border-radius:50%;animation:fdot 2.2s ease-in-out infinite}
+@keyframes fdot{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:1100px){
+  .wrap{padding:0 44px}
+  .what-inner{padding:60px 48px}
+}
+@media(max-width:900px){
+  :root{--nav-h:68px}
+  .wrap{padding:0 24px}
+  .nav-links,.nav-cta{display:none}
+  .nav-burger{display:flex}
+  .nav-inner{grid-template-columns:1fr auto}
+  .nav-logo{grid-column:1;justify-self:start}
+  .nav-right{grid-column:2}
+
+  .ph-grid{grid-template-columns:1fr;gap:48px;padding-bottom:52px}
+  .prob-grid{grid-template-columns:1fr}
+  .what-grid{grid-template-columns:1fr;gap:32px}
+  .what-rule{display:none}
+  .what-inner{padding:48px 32px}
+  .how-hd{flex-direction:column;align-items:flex-start;gap:8px}
+  .ht-row{grid-template-columns:48px 1px 1fr;gap:0 24px}
+  .result-cards{grid-template-columns:repeat(2,1fr)}
+  .rc{border-right:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+  .rc:nth-child(2n){border-right:none}
+  .rc:nth-child(3),.rc:nth-child(4){border-bottom:none}
+  .price-block{grid-template-columns:1fr}
+  .pb-left{border-right:none;border-bottom:1px solid var(--bd)}
+  .foot-grid{grid-template-columns:1fr;gap:24px}
+  .foot-right{text-align:left}
+  .foot-nav{grid-template-columns:1fr 1fr}
+  #problem,#what,#how,#result,#funnel,#price,#svc-cta{padding:80px 0}
+  #result{padding:0 0 80px}
+}
+@media(max-width:540px){
+  .ph-h1{font-size:2.0rem}
+  .ph-actions{flex-direction:column;align-items:stretch}
+  .btn-fill,.btn-line{justify-content:center;text-align:center}
+  .result-cards{grid-template-columns:1fr}
+  .rc{border-right:none;border-bottom:1px solid var(--bd)}
+  .rc:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════ -->
+<header id="hdr">
+  <div class="wrap">
+    <nav class="nav-inner">
+      <ul class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="index.html#services">서비스</a></li>
+        <li><a href="service.html" class="active">RESET</a></li>
+        <li><a href="index.html#gallery">아카이브</a></li>
+      </ul>
+      <a href="index.html" class="nav-logo">Life Having</a>
+      <div class="nav-right">
+        <a href="https://forms.gle/K5kWDtyoftEd95TYA" target="_blank" class="nav-cta">지금 내 공간 진단하기</a>
+        <button class="nav-burger" id="navBurger" aria-label="메뉴">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ════════════════════════════
+   PAGE HERO
+════════════════════════════ -->
+<section id="page-hero">
+  <div class="wrap">
+    <div class="ph-breadcrumb" data-sr>
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="index.html#services">Services</a>
+      <span class="sep">/</span>
+      <span>RESET</span>
+    </div>
+    <div class="ph-grid">
+      <div class="ph-left">
+        <div class="ph-tag" data-sr>01 / RESET Program</div>
+        <h1 class="ph-h1" data-sr data-d="1">
+          정리가 반복되는 이유는<br>
+          <em>기준이 없기 때문</em>입니다.
+        </h1>
+        <p class="ph-sub" data-sr data-d="2">
+          Life Having RESET은 물건을 치우는 서비스가 아닙니다.<br>
+          선택 기준을 설계하고, 유지 가능한 공간 구조를 만드는<br>1일 집중 프로그램입니다.
+        </p>
+        <div class="ph-actions" data-sr data-d="3">
+          <a href="https://forms.gle/K5kWDtyoftEd95TYA" target="_blank" class="btn-fill">
+            지금 내 공간 진단하기
+            <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M9 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#how" class="btn-line">진행 과정 보기</a>
+        </div>
+      </div>
+      <div class="ph-right" data-sr data-d="2">
+        <div class="ph-stat">
+          <div class="ph-stat-val">4~6시간</div>
+          <div class="ph-stat-desc">1회 방문<br>집중 진행</div>
+        </div>
+        <div class="ph-stat">
+          <div class="ph-stat-val">30~50%</div>
+          <div class="ph-stat-desc">물건 감소<br>목표</div>
+        </div>
+        <div class="ph-stat">
+          <div class="ph-stat-val">1개월</div>
+          <div class="ph-stat-desc">사후 점검<br>포함</div>
+        </div>
+        <div class="ph-stat">
+          <div class="ph-stat-val">₩500,000</div>
+          <div class="ph-stat-desc">1공간 기준<br>예약금 10만원</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-rule"></div>
+</section>
+
+
+<!-- ════════════════════════════
+   PROBLEM
+════════════════════════════ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="prob-grid">
+      <div class="prob-left">
+        <span class="sec-label" data-sr>Why it fails</span>
+        <h2 class="prob-heading" data-sr data-d="1">
+          정리 반복 실패의<br>
+          <em>진짜 이유</em>
+        </h2>
+        <p class="prob-body" data-sr data-d="2">
+          고객이 정리를 반복 실패하는 이유는 의지 부족이 아닙니다. 인지 과부하와 결정 피로가 원인입니다.
+        </p>
+        <p class="prob-body" data-sr data-d="2">
+          선택지가 많고 물건의 위치가 불분명할수록 뇌는 지속적으로 결정을 요구받습니다. 이 상태에서는 정리를 해도 기준 없이 원위치로 돌아갑니다.
+        </p>
+        <blockquote class="prob-quote" data-sr data-d="3">
+          "정리가 안 되는 게 아니라,<br>정리가 유지되는 구조가 없는 것입니다."
+        </blockquote>
+      </div>
+      <div class="prob-right" data-sr data-d="1">
+        <div class="prob-checklist">
+          <div class="pc-item">
+            <div class="pc-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2l-6 6"/></svg></div>
+            <span class="pc-txt">정리 유튜브·책을 2회 이상 시도했지만 매번 1~2주 내 무너짐</span>
+          </div>
+          <div class="pc-item">
+            <div class="pc-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2l-6 6"/></svg></div>
+            <span class="pc-txt">"나는 원래 지저분한 사람인가?"라는 자기 낙인 상태</span>
+          </div>
+          <div class="pc-item">
+            <div class="pc-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2l-6 6"/></svg></div>
+            <span class="pc-txt">집에 들어오면 쉬는 느낌보다 피로감이 먼저 듦</span>
+          </div>
+          <div class="pc-item">
+            <div class="pc-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2l-6 6"/></svg></div>
+            <span class="pc-txt">아침마다 물건을 찾느라 준비 시간 낭비</span>
+          </div>
+          <div class="pc-item">
+            <div class="pc-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2l-6 6"/></svg></div>
+            <span class="pc-txt">물건이 어디 있는지 몰라서 같은 물건을 중복 구매</span>
+          </div>
+        </div>
+        <p class="pc-note">하나라도 해당된다면, 정리의 문제가 아니라 구조의 문제입니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════
+   WHAT
+════════════════════════════ -->
+<section id="what">
+  <div class="wrap">
+    <div class="what-inner">
+      <div class="what-grid">
+        <div>
+          <span class="what-label" data-sr>RESET이란</span>
+          <h2 class="what-h" data-sr data-d="1">
+            선택 기준을<br>
+            <em>처음부터</em><br>
+            다시 설계합니다.
+          </h2>
+          <p class="what-body" data-sr data-d="2">
+            전문가 혼자 정리하면 2주 내 복귀율이 70% 이상입니다. RESET은 고객이 직접 참여하는 구조로 설계됩니다. 오너십이 생겨야 공간이 유지됩니다.
+          </p>
+        </div>
+        <div class="what-rule"></div>
+        <div class="what-right" data-sr data-d="2">
+          <div class="what-diff">
+            <div class="wd-label neg">일반 정리 서비스</div>
+            <div class="wd-txt neg">전문가 혼자 진행 → 깔끔해진 공간 → 2주 후 다시 무너짐</div>
+          </div>
+          <div class="what-diff" style="border-color:rgba(235,234,222,.15)">
+            <div class="wd-label pos">Life Having RESET</div>
+            <div class="wd-txt pos">고객 참여 + 기준 설계 → 유지 가능한 구조 + 규칙 3개 → 1개월 점검 포함</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════
+   HOW — 4단계 타임라인
+════════════════════════════ -->
+<section id="how">
+  <div class="wrap">
+    <div class="how-hd" data-sr>
+      <div>
+        <span class="sec-label">진행 과정</span>
+        <h2 class="how-ttl">현장 4단계 구조</h2>
+      </div>
+      <span class="how-total">총 4~6시간 · 1회 방문</span>
+    </div>
+    <div class="how-timeline">
+      <div class="ht-row" data-sr data-d="1">
+        <div class="ht-num">01</div>
+        <div class="ht-line"></div>
+        <div class="ht-body">
+          <div class="ht-header">
+            <span class="ht-en">Diagnosis</span>
+            <span class="ht-ko">진단</span>
+            <span class="ht-time">30분</span>
+          </div>
+          <p class="ht-desc">공간 전체를 함께 확인합니다. 불편한 요소를 체크하고, 가장 우선적으로 해결할 문제 공간 3개를 정의합니다. 3가지 핵심 질문으로 고객의 생활 패턴을 파악합니다.</p>
+          <div class="ht-chips">
+            <span class="ht-chip">공간 전체 확인</span>
+            <span class="ht-chip">문제 공간 3개 정의</span>
+            <span class="ht-chip">생활 패턴 인터뷰</span>
+          </div>
+        </div>
+      </div>
+      <div class="ht-row" data-sr data-d="2">
+        <div class="ht-num">02</div>
+        <div class="ht-line"></div>
+        <div class="ht-body">
+          <div class="ht-header">
+            <span class="ht-en">Sorting</span>
+            <span class="ht-ko">분류</span>
+            <span class="ht-time">1~2시간</span>
+          </div>
+          <p class="ht-desc">물건을 사용·보관·버림·보류 4가지로 분류합니다. 고객은 자주 쓰는 물건을, 전문가는 보관 물건과 구조 정리를 담당합니다. 물건 30~50% 감소가 목표입니다.</p>
+          <div class="ht-chips">
+            <span class="ht-chip">4분류 기준 적용</span>
+            <span class="ht-chip">고객 참여 분류</span>
+            <span class="ht-chip">30~50% 감소 목표</span>
+          </div>
+        </div>
+      </div>
+      <div class="ht-row" data-sr data-d="3">
+        <div class="ht-num">03</div>
+        <div class="ht-line"></div>
+        <div class="ht-body">
+          <div class="ht-header">
+            <span class="ht-en">Layout</span>
+            <span class="ht-ko">재배치</span>
+            <span class="ht-time">1~2시간</span>
+          </div>
+          <p class="ht-desc">동선을 기준으로 물건을 재배치합니다. 출근 라인, 생활 라인, 보관 라인을 구분해 자주 쓰는 물건은 손 닿는 위치에, 계절 물건은 상단과 안쪽에 배치합니다.</p>
+          <div class="ht-chips">
+            <span class="ht-chip">동선 기반 배치</span>
+            <span class="ht-chip">출근·생활·보관 라인</span>
+            <span class="ht-chip">공간 역할 정의</span>
+          </div>
+        </div>
+      </div>
+      <div class="ht-row" data-sr data-d="4">
+        <div class="ht-num">04</div>
+        <div class="ht-line"></div>
+        <div class="ht-body">
+          <div class="ht-header">
+            <span class="ht-en">Maintenance</span>
+            <span class="ht-ko">유지 설계</span>
+            <span class="ht-time">20~30분</span>
+          </div>
+          <p class="ht-desc">다시 무너지지 않도록 유지 규칙 3개를 설정합니다. Before/After를 기록하고, 1개월 후 점검 연락을 드립니다. 상태가 유지되지 않을 경우 추가 관리도 안내합니다.</p>
+          <div class="ht-chips">
+            <span class="ht-chip">유지 규칙 3개</span>
+            <span class="ht-chip">Before/After 기록</span>
+            <span class="ht-chip">1개월 후 점검</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════
+   RESULT — 고객 변화 4가지
+════════════════════════════ -->
+<section id="result">
+  <div class="wrap">
+    <div class="result-hd" data-sr>
+      <span class="sec-label">고객 체감 변화</span>
+      <h2 class="result-ttl">RESET 후 달라지는 것들</h2>
+    </div>
+    <div class="result-cards" data-sr data-d="1">
+      <div class="rc">
+        <div class="rc-icon"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8.5"/><polyline points="11 6.5 11 11 14 13.5"/></svg></div>
+        <div class="rc-ttl">물건 찾는 시간</div>
+        <div class="rc-desc">위치가 명확해지면서<br>탐색 시간이 거의 없어집니다</div>
+      </div>
+      <div class="rc">
+        <div class="rc-icon"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a7 7 0 1 0 7-7 7 7 0 0 0-5.2 2.3"/><polyline points="1.5 5.5 4 11 8.5 8.5"/></svg></div>
+        <div class="rc-ttl">집에서의 피로감</div>
+        <div class="rc-desc">공간이 정리되면<br>귀가 자체가 회복이 됩니다</div>
+      </div>
+      <div class="rc">
+        <div class="rc-icon"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="11" x2="19" y2="11"/><polyline points="13 5 19 11 13 17"/></svg></div>
+        <div class="rc-ttl">아침 준비 시간</div>
+        <div class="rc-desc">동선 설계로<br>출근 준비 속도가 단축됩니다</div>
+      </div>
+      <div class="rc">
+        <div class="rc-icon"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 18 6"/></svg></div>
+        <div class="rc-ttl">2주 후 공간 상태</div>
+        <div class="rc-desc">유지 규칙 덕분에<br>2주 후에도 상태가 유지됩니다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════
+   FUNNEL — 진행 퍼널
+════════════════════════════ -->
+<section id="funnel">
+  <div class="wrap">
+    <div class="funnel-hd" data-sr>
+      <span class="sec-label">예약 흐름</span>
+      <h2 class="funnel-ttl">이렇게 진행됩니다</h2>
+    </div>
+    <div class="funnel-list">
+      <div class="fl-row" data-sr data-d="1">
+        <div class="fl-n">01</div>
+        <div class="fl-body">
+          <div class="fl-ttl">공간·생활 진단 (무료)</div>
+          <div class="fl-desc">1분 진단 테스트 → 결과 3단계 분류 → 1시간 이내 문자 전달</div>
+        </div>
+        <span class="fl-badge active">지금 바로</span>
+      </div>
+      <div class="fl-row" data-sr data-d="2">
+        <div class="fl-n">02</div>
+        <div class="fl-body">
+          <div class="fl-ttl">상담 신청</div>
+          <div class="fl-desc">이름·연락처·공간 사진 → 문제 파악 + 가격 설명 + 일정 2개 제안</div>
+        </div>
+        <span class="fl-badge">전화 / 카카오</span>
+      </div>
+      <div class="fl-row" data-sr data-d="3">
+        <div class="fl-n">03</div>
+        <div class="fl-body">
+          <div class="fl-ttl">예약금 입금</div>
+          <div class="fl-desc">10만 원 고정 → 일정 확정 (전액 서비스 금액에 포함)</div>
+        </div>
+        <span class="fl-badge">노쇼 방지</span>
+      </div>
+      <div class="fl-row" data-sr data-d="4">
+        <div class="fl-n">04</div>
+        <div class="fl-body">
+          <div class="fl-ttl">사전 안내 발송</div>
+          <div class="fl-desc">공간 현 상태 유지 요청 + 작업 시간 안내 + Before 촬영 안내</div>
+        </div>
+        <span class="fl-badge">진행 전</span>
+      </div>
+      <div class="fl-row" data-sr data-d="5">
+        <div class="fl-n">05</div>
+        <div class="fl-body">
+          <div class="fl-ttl">현장 RESET</div>
+          <div class="fl-desc">4단계 집중 진행 (4~6시간) + 유지 규칙 3개 설정 + After 기록</div>
+        </div>
+        <span class="fl-badge">당일</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════
+   PRICE
+════════════════════════════ -->
+<section id="price">
+  <div class="wrap">
+    <div class="price-hd" data-sr>
+      <span class="sec-label">가격 안내</span>
+      <h2 class="price-ttl">RESET 프로그램 비용</h2>
+    </div>
+    <div class="price-block" data-sr data-d="1">
+      <div class="pb-left">
+        <span class="pb-price-label">기본 가격</span>
+        <div class="pb-price-num">&#8361;500,000</div>
+        <div class="pb-price-note">RESET 1공간 기본 · 예약금 10만원 포함</div>
+        <div class="pb-options">
+          <div class="pb-opt">
+            <span class="pb-opt-name">공간 추가</span>
+            <span class="pb-opt-val">+20만원 / 공간</span>
+          </div>
+          <div class="pb-opt">
+            <span class="pb-opt-name">물건 과다 (난이도 높음)</span>
+            <span class="pb-opt-val">+10만원</span>
+          </div>
+          <div class="pb-opt">
+            <span class="pb-opt-name">5시간 초과</span>
+            <span class="pb-opt-val">+10만원</span>
+          </div>
+        </div>
+        <p class="pb-footnote">
+          진단 테스트는 무료입니다.<br>
+          예약은 상담 후 일정 확정 순으로 진행됩니다.<br>
+          취소 3일 전 100% · 2일 전 50% · 1일 전 이후 환불 불가
+        </p>
+      </div>
+      <div class="pb-right">
+        <span class="pb-tgt-label">서비스 대상</span>
+        <ul class="pb-tgt-list">
+          <li>정리를 2회 이상 시도했지만 매번 무너진 분</li>
+          <li>물건을 못 버리는 이유가 "내 성격"이라고 생각하는 분</li>
+          <li>집에 들어오는 것 자체가 피로하게 느껴지는 분</li>
+          <li>아침마다 물건을 찾느라 준비 시간이 늘어나는 분</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════
+   FINAL CTA
+════════════════════════════ -->
+<section id="svc-cta">
+  <div class="cta-rings">
+    <div class="cr cr-1"></div>
+    <div class="cr cr-2"></div>
+    <div class="cr cr-3"></div>
+  </div>
+  <div class="wrap">
+    <div class="svc-cta-inner">
+      <p class="svc-cta-en" data-sr>Life Having RESET</p>
+      <h2 class="svc-cta-h" data-sr data-d="1">
+        한 번 제대로 정리하면<br>
+        <em>다시 무너지지 않습니다.</em>
+      </h2>
+      <p class="svc-cta-p" data-sr data-d="2">
+        진단은 1분, 무료입니다.<br>
+        지금 공간 상태를 확인하고 시작해보세요.
+      </p>
+      <a href="https://forms.gle/K5kWDtyoftEd95TYA" target="_blank" class="btn-fill-inv" data-sr data-d="3">
+        지금 내 공간 진단하기
+        <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M9 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="svc-cta-note" data-sr data-d="4">평균 소요 1분 · 100% 무료 · 1시간 이내 결과 전달</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Life Having</div>
+        <div class="foot-tagline">공간과 삶의 기준</div>
+      </div>
+      <nav class="foot-nav">
+        <a href="index.html">홈</a>
+        <a href="index.html#services">서비스 소개</a>
+        <a href="service.html">RESET 프로그램</a>
+        <a href="index.html#gallery">아카이브</a>
+        <a href="index.html#diagnosis">공간 진단</a>
+        <a href="#">상담 신청</a>
+        <a href="#">인스타그램</a>
+        <a href="#">유튜브</a>
+        <a href="#">이용약관</a>
+      </nav>
+      <div class="foot-right">
+        <p class="foot-copy">Copyright © 2025<br>Life Having.<br>All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ════ FLOATING BUTTON ════ -->
+<button class="float-cta" id="floatBtn" onclick="window.open('https://lifehaving.channel.io/workflows/821397','_blank')" aria-label="상담 챗봇 열기">
+  <div class="float-dot"></div>
+  상담 챗봇
+</button>
+
+
+<script>
+(function(){
+  'use strict';
+
+  /* 1. 헤더 스크롤 */
+  var hdr = document.getElementById('hdr');
+  var fb  = document.getElementById('floatBtn');
+  function onScroll(){
+    var y = window.scrollY;
+    hdr.classList.toggle('scrolled', y > 40);
+    fb.classList.toggle('show', y > 420);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* 2. 스크롤 리빌 */
+  var els = document.querySelectorAll('[data-sr]');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target) }
+      });
+    },{threshold:.08,rootMargin:'0px 0px -44px 0px'});
+    els.forEach(function(el){ io.observe(el) });
+  } else {
+    els.forEach(function(el){ el.classList.add('in') });
+  }
+
+  /* 3. 스무스 스크롤 */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var h = this.getAttribute('href');
+      if(h==='#') return;
+      var t = document.querySelector(h);
+      if(!t) return;
+      e.preventDefault();
+      var nh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
+      window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-nh,behavior:'smooth'});
+    });
+  });
+
+  /* 4. 모바일 햄버거 */
+  document.getElementById('navBurger').addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
+</script>
+
+<!-- ════ 채널톡 챗봇 ════ -->
+<script>
+(function(){
+  var w = window;
+  if(w.ChannelIO) return;
+  var ch = function(){ch.c(arguments)};
+  ch.q = [];
+  ch.c = function(args){ch.q.push(args)};
+  w.ChannelIO = ch;
+  function l(){
+    if(w.ChannelIOInitialized) return;
+    w.ChannelIOInitialized = true;
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+    var x = document.getElementsByTagName('script')[0];
+    x.parentNode.insertBefore(s,x);
+  }
+  if(document.readyState==='complete') l();
+  else if(w.attachEvent) w.attachEvent('onload',l);
+  else w.addEventListener('DOMContentLoaded',l,false);
+})();
+
+ChannelIO('boot',{
+  pluginKey: '233474',
+  hideChannelButtonOnBoot: false,
+  language: 'ko',
+  zIndex: 900
+});
+</script>
+
+</body>
+</html>

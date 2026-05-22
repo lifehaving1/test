@@ -525,29 +525,29 @@ img, video { max-width: 100%; display: block; }
   object-fit: cover;
   display: block;
   transform: scaleX(-1);
-  filter: brightness(0.7) contrast(1.05) saturate(0.8);
+  filter: brightness(0.92) contrast(1) saturate(0.95);
 }
-/* PHILOSOPHY 오버레이 — 우측 텍스트 영역 강한 비네팅 + 전체 강하게 어두운 그라데이션 */
+/* PHILOSOPHY 오버레이 — 좌측 텍스트 영역(그림자 쪽) 비네팅 + 전체 부드러운 그라데이션 */
 .philosophy__visual::after {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    /* 우측 텍스트 영역에 강한 비네팅 — 거의 검정에 가깝게 */
-    radial-gradient(ellipse at 75% 50%, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 40%, rgba(0, 0, 0, 0.2) 70%),
-    /* 전체 세로 그라데이션 — 위·아래 모두 짙게 */
-    linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.65) 100%);
+    /* 좌측 텍스트 영역에 어두운 비네팅 — 그림자와 자연스럽게 어우러짐 */
+    radial-gradient(ellipse at 25% 50%, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0) 75%),
+    /* 전체 좌→우 그라데이션 — 좌측이 어둡고 우측은 이미지 살림 */
+    linear-gradient(90deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.2) 50%, rgba(10, 10, 10, 0.1) 100%);
   z-index: 1;
 }
 .philosophy__overlay {
   position: absolute;
-  right: 12%;
+  left: 12%;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
   color: var(--text-on-dark);
   max-width: 580px;
-  text-align: right;
+  text-align: left;
 }
 .philosophy__overlay-quote {
   font-size: clamp(28px, 3.4vw, 42px);
@@ -1066,7 +1066,7 @@ img, video { max-width: 100%; display: block; }
   .keynote-dark__line { left: 24px; }
 
   .philosophy__visual { height: 40vh; min-height: 320px; }
-  .philosophy__overlay { left: 24px; right: 24px; top: 48px; bottom: auto; transform: none; text-align: right; }
+  .philosophy__overlay { left: 24px; right: 24px; top: 48px; bottom: auto; transform: none; text-align: left; }
   .philosophy__bottom { padding: 80px 24px; }
 
   .method { padding: 80px 24px 120px; }

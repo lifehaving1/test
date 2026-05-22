@@ -512,8 +512,8 @@ img, video { max-width: 100%; display: block; }
 .philosophy__visual {
   position: relative;
   width: 100%;
-  height: 50vh;
-  min-height: 380px;
+  height: 80vh;
+  min-height: 560px;
   overflow: hidden;
   background: linear-gradient(135deg, #D5D1C8, #B8B3A8);
 }
@@ -525,28 +525,29 @@ img, video { max-width: 100%; display: block; }
   object-fit: cover;
   display: block;
   transform: scaleX(-1);
-  filter: brightness(0.92) contrast(1) saturate(0.95);
+  filter: brightness(0.95) contrast(1) saturate(0.95);
 }
-/* PHILOSOPHY 오버레이 — 우측 텍스트 영역 비네팅 + 전체 부드러운 그라데이션 */
+/* PHILOSOPHY 오버레이 — 중앙 텍스트 영역 부드러운 비네팅 (이미지 본연 살림) */
 .philosophy__visual::after {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    /* 우측 텍스트 영역에 비네팅 — 그림자와 어우러짐 */
-    radial-gradient(ellipse at 75% 50%, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 45%, rgba(0, 0, 0, 0) 75%),
-    /* 전체 우→좌 그라데이션 — 우측이 살짝 어둡고 좌측은 이미지 살림 */
-    linear-gradient(270deg, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.18) 50%, rgba(10, 10, 10, 0.08) 100%);
+    /* 중앙 텍스트 영역에 부드러운 비네팅 — 글자 가독성만 살림 */
+    radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0) 75%),
+    /* 전체 옅은 어두움 — 이미지 디테일 유지 */
+    linear-gradient(180deg, rgba(10, 10, 10, 0.15) 0%, rgba(10, 10, 10, 0.3) 100%);
   z-index: 1;
 }
 .philosophy__overlay {
   position: absolute;
-  right: 8%;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   z-index: 2;
   color: var(--text-on-dark);
-  max-width: 620px;
+  max-width: 720px;
+  width: 90%;
   text-align: center;
 }
 .philosophy__overlay-quote {
@@ -1065,8 +1066,8 @@ img, video { max-width: 100%; display: block; }
   .keynote-dark__content { padding: 24px; }
   .keynote-dark__line { left: 24px; }
 
-  .philosophy__visual { height: 40vh; min-height: 320px; }
-  .philosophy__overlay { left: 24px; right: 24px; top: 48px; bottom: auto; transform: none; text-align: center; }
+  .philosophy__visual { height: 70vh; min-height: 480px; }
+  .philosophy__overlay { left: 50%; right: auto; top: 50%; bottom: auto; transform: translate(-50%, -50%); width: 86%; text-align: center; }
   .philosophy__bottom { padding: 80px 24px; }
 
   .method { padding: 80px 24px 120px; }
